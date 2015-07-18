@@ -1,13 +1,20 @@
 from bs4 import BeautifulSoup
-import urllib2
+from urllib3 import poolmanager
+import csv
 
+
+# TODO Log to csv
 
 # Downloads and logs all <a> tags into a text file
 def logLinks():
-	website = urllib2.urlopen(raw_input('Enter website url: '))
-	soup = BeautifulSoup(website.read())
-
-	log = open('log.txt', 'ab')
+	connectBuilder = poolmanager.PoolManager()
+	# Take website url and name
+	website = connectBuilder.urlopen('GET', (input('Enter website url: ')))
+	websiteName = input('What is the name of this website: ')
+	soup = BeautifulSoup(website.read(), "html.parser")
+	
+	# Open log txt file
+	log = open(websiteName + '.txt', 'a')
 
 	# Loop to write each tag to file
 	for link in soup.find_all('a'):
