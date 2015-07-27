@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 from urllib3 import poolmanager
-import csv
 
 
 # TODO Log to csv
@@ -14,16 +13,10 @@ def logLinks():
 	soup        = BeautifulSoup(website.read(), 'html.parser')
 
 	csvfile = open(websiteName + '.csv', 'w')
-	writer = csv.writer(csvfile)
 
-	# Open log txt file
-	urls = []
-
-	for url in soup.findAll('a', href=re.compile('5'))
-		print url['href']
-
-	for url in zip(urls):
-		writer.writerow([url])
+	for link in soup.findAll('a'):
+		csvfile.write(str(link.get('href')))
+		csvfile.write('\n')
 
 	csvfile.close()
 
